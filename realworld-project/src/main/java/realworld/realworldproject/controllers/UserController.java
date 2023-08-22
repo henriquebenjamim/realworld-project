@@ -6,6 +6,8 @@ import org.springframework.web.server.ResponseStatusException;
 import realworld.realworldproject.entities.User;
 import realworld.realworldproject.repositories.UserRepository;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -18,7 +20,7 @@ public class UserController {
 
     @PostMapping("login")
     @ResponseStatus(HttpStatus.CREATED)
-    public User save (@RequestBody User user) {
+    public User post(@RequestBody User user) {
         return users.save(user);
     }
 
@@ -32,6 +34,20 @@ public class UserController {
     public User get(@PathVariable String username) {
         return users.findByUsername(username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
+    }
+
+    @PutMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@PathVariable Long id,
+                       @RequestBody @Valid User user) {
+        users
+                .findById(id)
+                .map(existingUser -> {
+                    user.setId(existingUser.getId());
+                    users.save(user);
+                    return existingUser;
+                }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "User not found."));
     }
 
 
