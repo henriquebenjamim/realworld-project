@@ -2,6 +2,8 @@ package realworld.realworldproject.entities;
 
 
 import lombok.*;
+import realworld.realworldproject.dtos.UserDTO;
+
 import javax.persistence.*;
 
 
@@ -32,5 +34,13 @@ public class User {
 
     @Column(name = "image", length = 300)
     private String image;
+
+    public User(UserDTO data) {
+        this.username = data.username();
+        this.email = data.email();
+        this.password = data.password();
+        this.bio = data.bio();
+        this.image = data.image();
+    }
 
 }
