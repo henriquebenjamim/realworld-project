@@ -1,9 +1,10 @@
-package realworld.realworldproject.entities;
+package realworld.realworldproject.domain.profile;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import realworld.realworldproject.dtos.profile.ProfileDTO;
 
 import javax.persistence.*;
 
@@ -27,6 +28,10 @@ public class Profile {
 
     private String image;
 
-    private boolean following;
+    public Profile(ProfileDTO data) {
+        this.username = data.username();
+        this.bio = data.bio();
+        this.image = data.image();
+    }
 
 }

@@ -1,8 +1,0 @@
-CREATE TABLE USERS (
-    ID          Integer PRIMARY KEY AUTO_INCREMENT,
-    USERNAME    VARCHAR(40),
-    EMAIL       VARCHAR(62),
-    PASSWORD    VARCHAR(100)
-    BIO         VARCHAR(30),
-    IMAGE       VARCHAR(300)
-);

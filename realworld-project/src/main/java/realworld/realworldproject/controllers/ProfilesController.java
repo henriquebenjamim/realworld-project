@@ -4,29 +4,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import realworld.realworldproject.dtos.UserDTO;
-import realworld.realworldproject.entities.User;
-import realworld.realworldproject.services.UserService;
+import realworld.realworldproject.domain.profile.Profile;
+import realworld.realworldproject.dtos.profile.ProfileDTO;
+import realworld.realworldproject.services.ProfileService;
 
-@RestController
-@RequestMapping("/api/users")
-public class UserController {
-
+@RestController()
+@RequestMapping("api/profiles")
+public class ProfilesController {
 
     @Autowired
-    private UserService userService;
+    private ProfileService profileService;
 
     @PostMapping("login")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<User> Post(@RequestBody UserDTO user) {
-        User newUser = userService.createUser(user);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    public ResponseEntity<Profile> Post(@RequestBody ProfileDTO profile) {
+        Profile newProfile = profileService.createProfile(profile);
+        return new ResponseEntity<>(newProfile, HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<User> GetUserById(@PathVariable Long id) throws Exception {
-        User user = userService.findUserById(id);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    public ResponseEntity<Profile> GetProfileById(@PathVariable Long id) throws Exception {
+        Profile profile = profileService.findProfileById(id);
+        return new ResponseEntity<>(profile, HttpStatus.CREATED);
     }
 
 //    @PutMapping("{id}")
@@ -42,6 +41,4 @@ public class UserController {
 //                }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
 //                        "User not found."));
 //    }
-
-
 }
