@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import realworld.realworldproject.domain.user.AuthenticationDTO;
+import realworld.realworldproject.domain.user.LoginResponseDTO;
 import realworld.realworldproject.domain.user.RegisterDTO;
 import realworld.realworldproject.domain.user.User;
+import realworld.realworldproject.infra.security.TokenService;
 import realworld.realworldproject.repositories.UserRepository;
 
 import javax.validation.Valid;
@@ -26,12 +28,17 @@ public class AuthenticationController {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/register")

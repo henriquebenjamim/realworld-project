@@ -27,10 +27,8 @@ public class User implements UserDetails {
     @Column
     private Long id;
 
-    @Column(name = "email", length = 52)
     private String email;
 
-    @Column(name = "password", length = 100)
     private String password;
 
     private UserRole role;
@@ -40,7 +38,6 @@ public class User implements UserDetails {
         this.password = password;
         this.role = role;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
